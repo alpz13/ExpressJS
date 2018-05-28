@@ -1,9 +1,24 @@
 var express = require('express');
-var router = express.Router();
+var app = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+app.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-module.exports = router;
+var handler1 = function(req, res, next) {
+	req.params.file += '.txt';
+	next();
+};
+
+var handler2 = function(req, res) {
+	res.download(__dirname + '/' + req.params.file);
+};
+
+app.get('/item/:id', function (req, res) {
+	res.send(req.params.id);
+});
+
+app.get('/download/:file',[handler1,handler2]);
+
+module.exports = app;
