@@ -11,14 +11,13 @@ var handler1 = function(req, res, next) {
 	next();
 };
 
-var handler2 = function(req, res) {
-	res.download(__dirname + '/' + req.params.file);
-};
 
 app.get('/item/:id', function (req, res) {
 	res.send(req.params.id);
 });
 
-app.get('/download/:file',[handler1,handler2]);
+app.get('/download/:file', handler1 , function (req, res) {
+	res.download(__dirname + '/' + req.params.file);
+});
 
 module.exports = app;
