@@ -1,0 +1,19 @@
+div#footer
+	p this is a footer
+	img(src = '/images/download.jpg')
+	-
+		//will run synchronous and dont forget the identation after the dash
+		function test(a,b) {
+			return a + b;
+		}
+		const c = 55;
+		const dogs = [['small dog', 'pug'], ['medium dog','beagle'], ['bigger dog','german shepard'], ['biggest dog', 'great dane'], ['meanest dog', 'shiba']];
+
+	p= test(2,c)
+
+	ul
+		each dog in dogs
+			li= dog[1]
+	ul
+		each dog in dogs
+			li= dog
