@@ -3,37 +3,38 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:7.10
       
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
-
+  checkout_code:
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-        
-      # run tests!
-      - run: yarn test
-
-
+      - run: echo "Finished checkout code job"
+  bundle_dependencies:
+    steps:
+      - checkout
+      - run: echo "Finished bundle_dependencies job"
+  something_test:
+    steps:
+      - checkout
+      - run: echo "Finished something test job"
+  deploy:
+    steps:
+      - checkout
+      - run: echo "Finished deploy job"
+    
+ workflows:
+  version: 2
+  
+  build_and_deploy:
+    jobs:
+      - checkout_code
+      - bundle_dependencies:
+          requires:
+            - checkout_code
+      - something_test:
+          requires:
+            - bundle_dependencies:
+      - deploy:
+          requires:
+            - something_test
