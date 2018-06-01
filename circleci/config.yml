@@ -2,39 +2,48 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
+version: 2.0
 
 jobs:
-      
   checkout_code:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/repo
     steps:
       - checkout
-      - run: echo "Finished checkout code job"
+      - run: echo "checkout_code end"
   bundle_dependencies:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/repo
     steps:
       - checkout
-      - run: echo "Finished bundle_dependencies job"
-  something_test:
+      - run: echo "bundle_dependencies end"
+  run_all_tests:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/repo
     steps:
       - checkout
-      - run: echo "Finished something test job"
+      - run: echo "run_all_tests end"
   deploy:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/repo
     steps:
       - checkout
-      - run: echo "Finished deploy job"
-    
- workflows:
+      - run: echo "deploy end"
+workflows:
   version: 2
-  
-  build_and_deploy:
+  build-and-deploy:
     jobs:
       - checkout_code
       - bundle_dependencies:
           requires:
             - checkout_code
-      - something_test:
+      - run_all_tests:
           requires:
-            - bundle_dependencies:
+            - bundle_dependencies
       - deploy:
           requires:
-            - something_test
+            - run_all_tests      
