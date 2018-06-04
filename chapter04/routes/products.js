@@ -12,4 +12,13 @@ router.get('/req', function (req, res, next) {
 	res.send('Hello world');
 });
 
+router.get('/err_example', function(req, res) {
+	res.sendFile('index.html'); 
+});
+
+router.use(function(err, req, res, next) {
+	console.error(err);
+	res.status(500).send('Something went wrong mister Red');
+});
+
 module.exports = router;
